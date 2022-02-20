@@ -1,5 +1,5 @@
 # U-GCCT
-Universal Game Charactor Code Tools
+Universal Game Character Code Tools
 
 レトロゲーム等に見られる独自のテキストコードを解析するための簡易ツールです。
 csvファイルにゲームの文字コードの定義を記述し、変換します。
