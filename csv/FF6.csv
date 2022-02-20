@@ -11,9 +11,9 @@ REM,アイテム名など0x0026F6B0付近
 03,ﾛｯｸ
 04,ｶｲｴﾝ
 REM,戦闘メッセージだとWAIT、それ以外だとｼｬﾄﾞｳ
-05,[CMD]ｼｬﾄﾞｳ/WAIT
+05,[CMD 0 ｼｬﾄﾞｳ/WAIT]
 06,ｴﾄﾞｶﾞｰ
-07,[CMD]ﾏｯｼｭ/WAIT
+07,[CMD 0 ﾏｯｼｭ/WAIT]
 08,ｾﾘｽ
 09,ｽﾄﾗｺﾞｽ
 0A,ﾘﾙﾑ
@@ -23,12 +23,12 @@ REM,戦闘メッセージだとWAIT、それ以外だとｼｬﾄﾞｳ
 0E,ｺﾞｺﾞ
 0F,ｳｰﾏﾛ
 10, 
-11,[CMD_W1]LONG_WAIT
-12,[CMD]自動送り
+11,[CMD 0 WAIT11]
+12,[CMD 0 自動送り]
 13,[NULL]
-14,[CMD_W1]INDENT
+14,[CMD 1 INDENT]
 15,	
-16,[CMD_W1]LONG_WAIT2
+16,[CMD 1 WAIT16]
 REM,17,[SEQ]
 REM,18,[SEQ]
 19,(%d)
@@ -209,7 +209,7 @@ C7,…
 C8,ゥ
 C9,！
 CA,ェ
-CB,?
+CB,？
 CC,ォ
 CD,、
 CE,/
@@ -219,8 +219,8 @@ D1,」
 D2,。
 D3,+
 D4,「
-D5,[CMD]<select>
-D6,[CMD]</select>
+D5,（
+D6,）
 D7,・
 D8,……
 D9,帝国
@@ -1272,7 +1272,7 @@ FF,　
 1FEF,歴
 1FF0,～
 1FF1,＆
-1FF2,♪
+1FF2,♬
 1FF3,徐
 1FF4,処
 1FF5,刑
