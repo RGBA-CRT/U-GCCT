@@ -53,12 +53,39 @@ def print_table(table):
         "  \t[x0]\t[x1]\t[x2]\t[x3]\t[x4]\t[x5]\t[x6]\t[x7]\t[x8]\t[x9]\t[xA]\t[xB]\t[xC]\t[xD]\t[xE]\t[xF]")
     print_table_256(table, "")
 
+def create_text_table(util, file):    
+    print(util.text_tables.keys())
+    for key in util.text_tables.keys():
+        text_table = util.text_tables[key]
+        print("table: {} in 0x{:X}".format(text_table.name, text_table.address))
+        file.seek(text_table.address)
+        offset=0
+        while(True):
+            buf = infile.read(1)
+            if len(buf) == 0:
+                text_table.parse_stop()
+                break
+            # print("{:X}: {:02X}".format(offset+text_table.address,buf[0]))
+            code = "{:02X}".format(buf[0])
+            ret = text_table.parse(util, code)
+            if(ret == False):
+                break
+            offset=offset+1
+
+        text_table_dict = text_table.get_table()
+        for i in text_table_dict.keys():
+            print(" {:04X}: {}".format(i, text_table.get_text(i)))
+
+
+        
 
 print_table(table)
 
 infile_stat = os.stat(gamepath)
 
 infile = open(gamepath, "rb")
+
+create_text_table(table, infile)
 
 outfile = open("{}_dump.txt".format(gamepath), "w", encoding="utf-8")
 outfile.write("MessageDumper v3.0 \t Programmed by RGBA_CRT 2021\n")
@@ -86,6 +113,7 @@ while(1):
         break
 
     i = 0
+    # todo: [Skip 0xNN %d times]
     while(i < len(buffer)):
         pos = offset + i
         if pos > end:
@@ -97,7 +125,7 @@ while(1):
 
         
         prefix = ""
-        if text == "[SEQ]":
+        if text.startswith("[SEQ]"):
             prefix = code
 
         elif text == "[NULL]":
@@ -105,21 +133,53 @@ while(1):
 
         elif text.startswith("[CMD"):
             label = text[text.find(']')+1:]
-            outfile.write("[CMD {}".format(label))
+            outfile.write("[CMD:{},{}".format(code,label))
 
             if text.startswith("[CMD_W"):
                 match = re.search(r'\d+', text)
                 cmd_len = int(match.group())
-                outfile.write(", Arg:")
+                outfile.write(",arg:")
 
                 # cmd_arg=infile.read(cmd_len)
                 cmd_arg = buffer[i+1:i+cmd_len+1]
+                space=False
                 for a in cmd_arg:
-                    outfile.write(" {:02X}".format(a))
+                    if space: outfile.write(" ")
+                    outfile.write("{:02X}".format(a))
+                    space=True
                 i += cmd_len
 
             outfile.write("]")
 
+        elif text.startswith("[REF"):
+            args = text[text.find('[')+1:text.find(']')].split('/')
+            
+            idx_len = int(args[1])
+            table_name = args[2]
+            idx_mask = int(args[3], 16)
+            idx_offset = int(args[4])
+
+            if idx_len==1:
+                idx_raw = int(buffer[i+1])
+            elif idx_len==2:
+                idx_raw = int(buffer[i+2]) | int(buffer[i+1])<<8
+            else:
+                # 本当はパース時にチェックしたいが...
+                raise ValueError("[REF] index error")
+            
+            index = (idx_raw + idx_offset) & idx_mask
+            text = table.text_tables[table_name].get_text(index)
+            # print("arglist:{} raw_index={:08X}, index={:5d}(0x{:04X}), text={}".format(args,idx_raw,index,index,text)," buf=",buffer[i+1:i+idx_len+1])
+            outfile.write("[REF:{},arg:".format(code))
+            space=False
+            for b in buffer[i+1:i+1+idx_len]:
+                if space: outfile.write(" ")
+                outfile.write("{:02X}".format(b))
+                space=True
+            # outfile.write(",{},{},{:08X}]".format(text,index,idx_raw))
+            # outfile.write(",idx:{:X},{}]".format(index,text))
+            outfile.write(",{}]".format(text))
+            i += idx_len
         else:
             outfile.write(text)
 
