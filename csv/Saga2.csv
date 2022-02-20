@@ -1,5 +1,30 @@
 00,[NULL]
+02,[CMD_W1]02
 06,[\n]
+08,[CMD_W1]会話開始
+09,[CMD_W1]戦闘
+0B,[PRESS A]
+0D,[NULL]
+0E,[CMD]ENDIF
+10,[CMD]???
+11,[CMD_W1]SCRIPT_WAIT
+12,[CMD_W1]スプライト消し？
+14,[CMD_W1]キャラ加入
+16,[CMD]16
+17,[CMD_W1]IF
+18,[CMD_W1]会話終了２？
+1F,[CMD_W1]キャラ名
+REM,05:パーティ1人め
+REM,07:パーティ3人目
+REM,08:パーティ4人目
+20,[\n]
+22,[CMD_W1]文字列変数
+2E,[CMD]選択肢＞
+34,[CMD]キャラ選択＆名前入力
+36,[CMD_W1]INDENT
+4B,[CMD_W1]TEXTCALL
+4E,が
+4F,ぎ
 50,ぐ
 51,げ
 52,ご
@@ -10,6 +35,13 @@
 57,ぞ
 58,だ
 59,ぢ
+5A,づ
+5B,で
+5C,ど
+5D,ば
+5D,ば
+5E,び
+5F,ぶ
 60,べ
 61,ぼ
 62,ガ
@@ -20,17 +52,44 @@
 67,ザ
 68,ジ
 69,ズ
+6A,ゼ
+6B,ゾ
+6C,ダ
+6D,ヂ
+6E,ヅ
+6F,デ
 70,ド
-80,0
-81,1
-82,2
-83,3
-84,4
-85,5
-86,6
-87,7
-88,8
-89,9
+71,バ
+72,ビ
+73,ブ
+74,ベ
+75,ボ
+76,ぱ
+77,ぴ
+78,ぷ
+79,ぺ
+7A,ぽ
+7B,パ
+7C,ピ
+7D,プ
+7E,ペ
+7F,ポ
+80,０
+81,１
+82,２
+83,３
+84,４
+85,５
+86,６
+87,７
+88,８
+89,９
+8A,あ
+8B,い
+8C,う
+8D,え
+8E,お
+8F,か
 90,き
 91,く
 92,け
@@ -41,27 +100,6 @@
 97,せ
 98,そ
 99,た
-4E,が
-4F,ぎ
-5A,づ
-5B,で
-5C,ど
-5D,ば
-5D,ば
-5E,び
-5F,ぶ
-6a,ゼ
-6b,ゾ
-6c,ダ
-6d,ヂ
-6e,ヅ
-6f,デ
-8A,あ
-8B,い
-8C,う
-8D,え
-8E,お
-8F,か
 9A,ち
 9B,つ
 9C,て
@@ -98,7 +136,6 @@ B8,っ
 B8,っ
 B9,ゃ
 BA,ゅ
-BASE_DIFF,27
 BB,ょ
 BC,ア
 BD,イ
@@ -168,58 +205,128 @@ FC,┗
 FD,━
 FE,┛
 FF,　
-20,[\n]
-1F,[CMD_W1]キャラ名
-REM,1F,[SEQ]
-1F0A,(敵)
-1F0B,(敵2)
+30,[CMD_W1]数値変数
+07,[SEQ]
+0774,／
+0776,(C)
+0777,○
+0778,×
+0779,Ｈ
+077A,Ｐ
+REM,21,[SEQ]
 1F00,(プレイヤー)
 1F05,(パーティ#1)
 1F06,(パーティ#2)
 1F07,(パーティ#3)
 1F08,(パーティ#4)
+1F0A,(敵)
+1F0B,(敵2)
 1F0C,(プレイヤー？1)
-21,[SEQ]
-21FF,[SEQ]
-21FFEB,ふるきかみがみ
-21FFE8,おかっぴき
-21FFEA,ガーディアン
-21FFFA,しょうぐん
-21FFFB,おおごしょ
-21FFFC,オーディン
-22,[CMD_W1]変数
-71,バ
-72,ビ
-73,ブ
-74,ベ
-75,ボ
-76,ぱ
-77,ぴ
-78,ぷ
-79,ぺ
-7A,ぽ
-7B,パ
-7C,ピ
-7D,プ
-7E,ペ
-7F,ポ
-36,[CMD_W1]INDENT
-0B,[PRESS A]
-19,[SEQ]
-1907,[CMD_W1]1907
-1901,[SEQ]
-190138,カイ
-19017B,とうさん
-19017A,アシュラ
-19F0,[CMD_W1]画面演出
-190A,[CMD_W1]秘宝Get
-4b,[CMD_W1]テキストCALL
-11,[NULL]
-16,[CMD]16
-0d,[CMD]ウィンドウ閉？
-08,[CMD]会話開始？
-2E,(選択肢)
-09,[CMD_W1]戦闘？
-18,[CMD_W1]会話終了２？
-14,[CMD_W1]キャラ加入
-02,[CMD_W1]02
+19,[CMD_W2]FUNC_CALL
+REM, 1907,[CMD_W1]1907
+REM, 190A,[CMD_W1]秘宝Get
+REM, 190B,[CMD_W1]アイテム取得
+REM, 19F0,[CMD_W1]画面演出(BG折り畳み)
+REM, 19F6,キャラ動？0x19f6
+REM, 190138,カイ
+REM, 19017A,アシュラ
+REM, 19017B,とうさん
+REM, 1901F9,[CMD]?????
+REM, 1901F9,[CMD]回復（自宅）
+REM, 1907,[CMD_W1]BGM再生
+21,[REF/2/CODE_21H_OVER_14H_HTABLE/FF/0]
+REM, 21H: 本来は1バイト目が13H以下の場合はシングルバイト, 14H以上の場合はマルチバイトだが使っていなさそうなので省略
+REM, [REF],index_bytes,table_name,mask,offset
+
+BASE_DIFF,27
+REM,1F
+REM,F6XXXX ... コマンド？
+REM,FFXX
+REM,上記から、05-08はパーティの並びもしくは序盤に選択した仲間
+
+TEXT_TABLE,4CHAR_TABLE,3E610,FIXED_LENGTH,4,8
+REM, TEXT_TABLE,8CHAR_TABLE,3E630,FIXED_LENGTH,8,529
+TEXT_TABLE,CODE_21H_OVER_14H_HTABLE,3EEC0,FIXED_LENGTH,8,255
+TEXT_TABLE,16CHAR_TABLE,3F6C0,FIXED_LENGTH,16,15
+REM, "TEXT_TABLE",table_name,table_type,...
+REM, FIXED_LENGTH,text_length,table_count ;固定長文字列テーブル
+REM, JUMP_TABLE,;Index毎にアドレスがあってそれにジャンプして読むタイプの文字列テーブル
+REM, DEFINED_TABLE,;csv内で定義するタイプのテーブル
+
+REM,====== CODE 21H Analyze ========
+REM, 21FFD1,防衛システム？
+REM, 21FFE8,おかっぴき
+REM, 21FFEA,ガーディアン
+REM, 21FFEB,ふるきかみがみ
+REM, 21FFFA,しょうぐん
+REM, 21FFFB,おおごしょ
+REM, 21FFFC,オーディン
+REM, 8CHAR_TABLE_ORIGIN: 3E640
+REM, CODE:FFEA ROM:3F610 MASK1FF:1EA 8CHARS*MASK1FF+8CHAR_TABLE_ORIGIN=3f610 ：ガーディアン
+REM, CODE:FFEB ROM:3F618 SHIFT_E：古き神々
+REM, 21_TABLE_OFFSET: ROM:0x03E610, GB-MAP: 1F:A610
+REM,
+REM,3-bytes char
+REM,[21 15 00]: えのきもどき 会話続行
+REM,[21 14 EA]: ガーディアン 会話続行
+REM,[21 14 EB]: ふるきかみがみ 会話続行
+REM,
+REM,2-bytes char
+REM,[21 00] [00]: にんげん　おとこ 会話終了　パーティ1
+REM,[21 01] [00]: エスパー　ボーイ 会話終了　パーティ2
+REM,[21 02] [00]: おどりダコ　　　 会話終了　パーティ3
+REM,[21 03] [00]: がいこつ　　　　 会話終了　パーティ4
+REM,[21 04] [00]: きょうし　　　　 会話終了
+REM,[21 05] [00]: にんげん　おとこ 会話終了
+REM,[21 06] [00]: にんげん　おんな 会話終了
+REM,[21 07] [00]: エスパー　ボーイ 会話終了xszs
+REM,[21 08] [00]: エスパーガール 会話終了
+REM,[21 09] [00]: メカ　　　　 会話終了
+REM,[21 10] [00]: きょうし　　 会話終了
+REM,[21 11] [00]: 　　　　　　 会話終了
+REM,[21 12] [00]: 　　　　　　 会話終了
+REM,[21 13] [00]: 　　　　　　 会話終了
+REM, 21FF: offset 0x112 or origin 
+REM, 00:　8CHAR_TableIndex= 0112: えのきもどき　　
+REM, 01:　8CHAR_TableIndex= 0113: しいたけもどき
+REM, 10:  8CHAR_TableIndex= 0122: ストーン　　
+REM, 20:  8CHAR_TableIndex= 0132: あおとろ
+REM, 40:  8CHAR_TableIndex= 0152: クラーケン　　　
+REM, 80:  8CHAR_TableIndex= 0192: スレイプニル　　
+REM, F0:  8CHAR_TableIndex= 0202: にんげん　おとこ
+REM, FF:  8CHAR_TableIndex= 0211: ぼうえいシステム
+REM,
+REM, TEXT_SWITCH:             
+REM, 070C   XOR A                    
+REM, 070D   LD ($C77B), A            
+REM, 0710   RST 30H                  ;read first text code
+REM, 0711   CP $80                   
+REM, 0713   JR NC, $0754             ; if(first_byte > 0x80)
+REM, 0715   CP $76                   
+REM, 0717   JR NC, $0731             ; if(first_byte > 0x76)
+REM, 0719   CP $4E                   
+REM, 071B   JR NC, $0728             ; if(first_byte > 0x4E)
+REM, 071D   LD HL, $13D7             
+REM,
+REM, ====================
+REM,
+REM, 104B   RST 30H                  ;read second text byte
+REM, 104C   CP $05                   
+REM, 104E   JR C, $1075              ; if(second_byte < 0x05) then
+REM, 1050   CP $0D                   
+REM, 1052   JR C, $106A              ; if(second_byte < 0x0D) then
+REM, 1054   CP $10                   
+REM, 1056   JR C, $1083              ; if(second_byte < 0x10) then
+REM, 1058   CP $10                   
+REM, 105A   JR Z, $1072              ; if(second_byte == 0x10) then
+REM, 105C   CP $14                   
+REM, 105E   JR C, TEXT21_SINGLE_BYTE_ROUTINE ; if(second_byte < 0x14) then
+REM, 1060   RST 30H                  ;read third text byte
+REM, 1061   LD L, A                  
+REM, 1062   LD B, $08                
+REM, 1064   LD DE, $6EC0             
+REM, 1067   JP $1552                 
+REM, 106A   SUB $05                  
+REM, 106C   LD HL, $C73D             
+REM, 106F   RST 00H                  
+REM, 1070   JR $107B                 
