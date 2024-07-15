@@ -246,7 +246,14 @@ REM,上記から、05-08はパーティの並びもしくは序盤に選択し�
 
 TEXT_TABLE,4CHAR_TABLE,3E610,FIXED_LENGTH,4,8
 REM, TEXT_TABLE,8CHAR_TABLE,3E630,FIXED_LENGTH,8,529
-TEXT_TABLE,CODE_21H_OVER_14H_HTABLE,3EEC0,FIXED_LENGTH,8,255
+
+
+21,[REF/2/CODE_21H_OVER_14H_HTABLE/FF/0]
+REM, [REF/<index_bytes>/<table_name>/<mask>/<offset>]
+
+REM,TEXT_TABLE,<table_name>,<table_offset>,<table_type>,<text_length>,<count>
+,　　TEXT_TABLE,CODE_21H_OVER_14H_HTABLE,3EEC0,FIXED_LENGTH,8,255
+
 TEXT_TABLE,16CHAR_TABLE,3F6C0,FIXED_LENGTH,16,15
 REM, "TEXT_TABLE",table_name,table_type,...
 REM, FIXED_LENGTH,text_length,table_count ;固定長文字列テーブル
